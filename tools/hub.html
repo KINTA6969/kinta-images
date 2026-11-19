@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8"><title>hub</title><meta name="robots" content="noindex"></head>
+<body style="font:16px sans-serif;padding:10px">
+<div id="log">loading</div><div id="btns"></div>
+<script>
+window.__v={};window.__caps={};
+(async()=>{
+ const log=document.getElementById('log');
+ try{window.__caps=await fetch('../caps/c1117.json?x='+Date.now()).then(r=>r.json());}catch(e){log.textContent='caps fail';}
+ let m={};try{m=JSON.parse(decodeURIComponent(location.hash.slice(3)));}catch(e){}
+ history.replaceState(null,'',location.pathname);
+ const out=[];
+ for(const [n,u] of Object.entries(m)){
+  try{const b=await fetch(u).then(r=>r.blob());
+   const b64=await new Promise(res=>{const fr=new FileReader();fr.onload=()=>res(fr.result.split(',')[1]);fr.readAsDataURL(b);});
+   window.__v[n]=b64;out.push(n+':'+b.size);}catch(e){out.push(n+':fail '+e.message)}
+ }
+ log.textContent='caps '+Object.keys(window.__caps).length+' / '+out.join(' ');
+ const box=document.getElementById('btns');
+ for(const n of Object.keys(window.__v)){
+  for(const kind of ['tt','yt']){
+   const bt=document.createElement('button');bt.id=kind+n;bt.textContent=kind+' '+n;bt.style.cssText='margin:4px;padding:10px;font-size:16px';
+   bt.onclick=()=>{const cap=(window.__caps[n]||{})[kind]||'';
+     const base=kind=='tt'?'https://www.tiktok.com/tiktokstudio/upload?from=webapp':'https://studio.youtube.com/channel/UCAoS0f_q1886Hxej-76VCVQ/videos/upload?d=ud';
+     window.open(base+'#kn='+n+'&kc='+encodeURIComponent(cap)+'&kb='+window.__v[n],'_blank');};
+   box.appendChild(bt);
+  }
+ }
+})();
+</script></body></html>
