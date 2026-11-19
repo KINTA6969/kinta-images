@@ -1,0 +1,13 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>send</title></head><body>
+<div id="s">sending</div>
+<script>
+(async()=>{
+ const n=new URLSearchParams(location.search).get('n');
+ const caps=await fetch('../caps/c1117.json?x='+Date.now()).then(r=>r.json()).catch(()=>({}));
+ const kb=localStorage.getItem('kv'+n);
+ const s=document.getElementById('s');
+ if(!window.opener){s.textContent='no opener';return;}
+ if(!kb){s.textContent='no data '+n;return;}
+ let k=0; const iv=setInterval(()=>{k++; window.opener.postMessage({kinta:1,n,cap:(caps[n]||{}).yt||'',kb},'https://studio.youtube.com'); s.textContent='sent '+k; if(k>15){clearInterval(iv);}},1000);
+})();
+</script></body></html>
