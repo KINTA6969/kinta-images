@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>copy</title></head>
+<body style="font:14px sans-serif;padding:8px"><div id="s">loading</div><div id="b"></div>
+<script>
+(async()=>{
+ const w=new URLSearchParams(location.search).get('w')||'c1124';
+ const c=await fetch('../caps/'+w+'.json?x='+Date.now()).then(r=>r.json());
+ const b=document.getElementById('b'); const s=document.getElementById('s'); s.textContent='ready '+w;
+ for(const n of Object.keys(c)){
+  const row=document.createElement('div'); row.style.margin='2px 0'; row.textContent=n+' ';
+  const yt=(c[n].yt||'').split('\n');
+  const items={ig:c[n].ig,tt:c[n].tt,yt_t:yt[0],yt_d:yt.slice(1).join('\n')};
+  for(const [k,v] of Object.entries(items)){
+   const bt=document.createElement('button'); bt.id=k+'_'+n; bt.textContent=k; bt.style.cssText='margin:0 4px;padding:6px 10px';
+   bt.onclick=async()=>{await navigator.clipboard.writeText(v); s.textContent='copied '+k+' '+n+' ('+v.length+')';};
+   row.appendChild(bt);
+  }
+  b.appendChild(row);
+ }
+})();
+</script></body></html>
