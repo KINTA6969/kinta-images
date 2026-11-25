@@ -15,7 +15,7 @@
    row.appendChild(bt);
   }
   const ib=new TextEncoder().encode(c[n].ig||'').length;
-  if(ib>2100){const wn=document.createElement('span'); wn.textContent=' ⚠ig長すぎ '+ib+'バイト（2100以下に縮める。インスタで後ろが切れる）'; wn.style.cssText='color:#c00;font-weight:bold'; row.appendChild(wn); document.getElementById('ig_'+n).style.background='#fcc';}
+  if(ib>2100){const wn=document.createElement('span'); wn.textContent=' ⚠ig長すぎ '+ib+'バイト（2100以下に縮める。インスタで後ろが切れる）'; wn.style.cssText='color:#c00;font-weight:bold'; row.appendChild(wn); row.querySelector('button').style.background='#fcc';}
   b.appendChild(row);
  }
 })();
